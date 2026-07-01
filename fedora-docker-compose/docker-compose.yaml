@@ -1,0 +1,16 @@
+services:
+  fedora-dev:
+    build:
+      context: .
+      args:
+        FEDORA_VERSION: 44
+        APP_UID: 1000
+    image: fedora-dev:latest
+    container_name: fedora-dev
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    volumes:
+      - ./.bashrc:/home/rob/.bashrc:ro
+#    volumes:
+#       - ${HOME}/.bashrc:/home/rob/.bashrc:ro
