@@ -1,8 +1,11 @@
 IMAGE ?= fedora-dev
 TAG ?= latest
 
+# build:
+#	docker build -t $(IMAGE):$(TAG) .
+
 build:
-	docker build -t $(IMAGE):$(TAG) .
+	docker build -t $(IMAGE):$(TAG) ..
 
 shell:
 	docker run --rm -it $(IMAGE):$(TAG) /bin/bash

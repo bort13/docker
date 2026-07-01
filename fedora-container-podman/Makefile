@@ -2,7 +2,7 @@ IMAGE ?= fedora-dev
 TAG ?= latest
 
 build:
-	podman build -t $(IMAGE):$(TAG) .
+	docker build -t $(IMAGE):$(TAG) ..
 
 shell:
 	podman run --rm -it $(IMAGE):$(TAG) /bin/bash

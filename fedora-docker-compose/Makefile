@@ -1,3 +1,6 @@
+IMAGE ?= fedora-dev
+TAG ?= latest
+
 build:
 	docker compose build
 

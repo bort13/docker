@@ -1,7 +1,7 @@
 services:
   fedora-dev:
     build:
-      context: .
+      context: ..
       args:
         FEDORA_VERSION: 44
         APP_UID: 1000
