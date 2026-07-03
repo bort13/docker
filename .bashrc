@@ -13,13 +13,10 @@ esac
 
 alias ll='ls -lah --color=auto'
 alias l='ls -lh --color=auto'
+PROMPT_COMMAND="log_command"
 log_command() {
   local exit_code=$?
   local cmd
   cmd=$(history 1 | sed 's/^ *[0-9]* *//')
-  local escaped_cmd="${cmd//"'"/"''"}"
-  sqlite3 /root/.bash_history.db \
-    "INSERT INTO history (ts, cwd, cmd, exit_code, host) \
-     VALUES (datetime('now'), '$PWD', '$escaped_cmd', $exit_code, '$HOSTNAME');"
+  echo "$(date '+%F %T')	$PWD	$exit_code	$HOSTNAME	$cmd" >> ~/bash_history.tsv
 }
-PROMPT_COMMAND="log_command"

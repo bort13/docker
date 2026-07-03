@@ -57,3 +57,10 @@ aws-login() {
 }
 
 export PATH="$HOME/.local/bin:$PATH"
+log_command() {
+  local exit_code=$?
+  local cmd
+  cmd=$(fc -ln -1 | sed 's/^ *//')
+  echo "$(date '+%F %T')	$PWD	$exit_code	$HOSTNAME	$cmd" >> ~/bash_history.tsv
+}
+precmd() { log_command; }
