@@ -12,8 +12,6 @@ A Fedora-based development container with a full set of CLI and cloud/infra tool
 
 **Base:** Fedora 44 (`FEDORA_VERSION` build arg)
 
-**Corporate CA trust:** installs `zscaler-full-chain.pem` into the system trust store via `update-ca-trust`, so `dnf`, `curl`, `git`, etc. work behind the Zscaler proxy.
-
 >>>>>>> rob/rev-dockerfile
 **Core packages** (via `dnf`):
 `python3`, `python3-pip`, `curl`, `git`, `procps-ng`, `nc`, `nmap`, `ping`, `mtr`, `sudo`, `which`, `nfs-utils`, `cifs-utils`, `coreutils`, `bind-utils`, `fzf`, `jq`, `tcpdump`, `openssl`, `vim`, `tree`, `unzip`, `traceroute`, `whois`, `htop`, `lsof`, `ripgrep`, `yq`, `zsh`, `dnf-plugins-core`
@@ -67,6 +65,5 @@ Drops you into `zsh` as `${APP_USER}` in `/home/${APP_USER}`, with the Python ve
 <<<<<<< HEAD
 =======
 
-- Requires `zscaler-full-chain.pem` and `.bashrc` / `.zshrc` to be present in the build context alongside the `Dockerfile`.
 >>>>>>> rob/rev-dockerfile
 - Several tools (`kubectl`, `k9s`, `crane`) pull the *latest* release at build time — pin versions in the Dockerfile if you need reproducible builds.
