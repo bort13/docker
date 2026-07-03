@@ -2,7 +2,6 @@
 
 A Fedora-based development container with a full set of CLI and cloud/infra tooling pre-installed, running as a non-root user with `zsh` + `oh-my-zsh` by default.
 
-<<<<<<< HEAD
 ## What's should be inside
 
 **Base:** Fedora 44 (`FEDORA_VERSION` build arg)
@@ -12,7 +11,6 @@ A Fedora-based development container with a full set of CLI and cloud/infra tool
 
 **Base:** Fedora 44 (`FEDORA_VERSION` build arg)
 
->>>>>>> rob/rev-dockerfile
 **Core packages** (via `dnf`):
 `python3`, `python3-pip`, `curl`, `git`, `procps-ng`, `nc`, `nmap`, `ping`, `mtr`, `sudo`, `which`, `nfs-utils`, `cifs-utils`, `coreutils`, `bind-utils`, `fzf`, `jq`, `tcpdump`, `openssl`, `vim`, `tree`, `unzip`, `traceroute`, `whois`, `htop`, `lsof`, `ripgrep`, `yq`, `zsh`, `dnf-plugins-core`
 
@@ -62,8 +60,6 @@ docker run -it --rm fedora-dev
 Drops you into `zsh` as `${APP_USER}` in `/home/${APP_USER}`, with the Python venv already active on `PATH`.
 
 ## Notes
-<<<<<<< HEAD
 =======
 
->>>>>>> rob/rev-dockerfile
 - Several tools (`kubectl`, `k9s`, `crane`) pull the *latest* release at build time — pin versions in the Dockerfile if you need reproducible builds.
