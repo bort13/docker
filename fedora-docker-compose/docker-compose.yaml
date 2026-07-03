@@ -11,6 +11,6 @@ services:
     tty: true
     command: /bin/bash
     volumes:
-      - ./.bashrc:/home/rob/.bashrc:ro
+      - ../.bashrc:/home/rob/.bashrc:ro
 #    volumes:
 #       - ${HOME}/.bashrc:/home/rob/.bashrc:ro
