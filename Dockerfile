@@ -3,6 +3,7 @@ FROM fedora:${FEDORA_VERSION}
 
 RUN dnf -y upgrade && \
     dnf -y install \
+	sqlite \
         python3 \
         python3-pip \
         curl \
