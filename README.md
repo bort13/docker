@@ -55,6 +55,4 @@ docker run -it --rm fedora-dev
 Drops you into `zsh` as `${APP_USER}` in `/home/${APP_USER}`, with the Python venv already active on `PATH`.
 
 ## Notes
-
-- Requires `zscaler-full-chain.pem` and `.bashrc` / `.zshrc` to be present in the build context alongside the `Dockerfile`.
 - Several tools (`kubectl`, `k9s`, `crane`) pull the *latest* release at build time — pin versions in the Dockerfile if you need reproducible builds.
