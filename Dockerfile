@@ -21,8 +21,16 @@ RUN dnf -y upgrade && \
         bind-utils \
         fzf \
         jq \
+<<<<<<< HEAD
         tcpdump \
         openssl \
+=======
+        yq \
+        ripgrep \
+        tcpdump \
+        openssl \
+        openssh-clients \
+>>>>>>> rob/rev-dockerfile
         vim \
         tree \
         unzip \
@@ -30,14 +38,23 @@ RUN dnf -y upgrade && \
         whois \
         htop \
         lsof \
+<<<<<<< HEAD
         ripgrep \
         yq \
         zsh \
+=======
+        zsh \
+        byobu \
+        tmux \
+        screen \
+        skopeo \
+>>>>>>> rob/rev-dockerfile
         dnf-plugins-core \
     && dnf clean all \
     && rm -rf /var/cache/dnf
 RUN dnf -y install byobu tmux screen && dnf clean all
 
+<<<<<<< HEAD
 # --- kubectl (arch-aware official binary) ---
 RUN ARCH=$(uname -m) && \
     case "$ARCH" in \
@@ -67,12 +84,47 @@ RUN dnf5 install -y 'dnf5-command(config-manager)' && \
     dnf5 clean all
 
 # --- AWS CLI v2 (no dnf package; official installer) ---
+=======
+# --- Cloud / infra CLIs (arch-aware; not in Fedora repos or repo versions lag) ---
+
+# gh — GitHub CLI via official repo
+RUN dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo && \
+    dnf -y install gh && \
+    dnf clean all
+
+# terraform — via HashiCorp's official repo
+RUN dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo && \
+    dnf -y install terraform && \
+    dnf clean all
+
+# kubectl — official release binary (latest stable at build time)
+RUN ARCH=$(uname -m | sed 's/x86_64/amd64/; s/aarch64/arm64/') && \
+    curl -fsSLo /usr/local/bin/kubectl \
+        "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" && \
+    chmod 0755 /usr/local/bin/kubectl
+
+# k9s — latest GitHub release
+RUN ARCH=$(uname -m | sed 's/x86_64/amd64/; s/aarch64/arm64/') && \
+    curl -fsSL "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_${ARCH}.tar.gz" \
+        | tar -xz -C /usr/local/bin k9s
+
+# crane — go-containerregistry, latest GitHub release
+RUN ARCH=$(uname -m) && \
+    curl -fsSL "https://github.com/google/go-containerregistry/releases/latest/download/go-containerregistry_Linux_${ARCH}.tar.gz" \
+        | tar -xz -C /usr/local/bin crane
+
+# helm — official install script
+RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# awscli v2 — official installer
+>>>>>>> rob/rev-dockerfile
 RUN ARCH=$(uname -m) && \
     curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}.zip" -o /tmp/awscliv2.zip && \
     unzip -q /tmp/awscliv2.zip -d /tmp && \
     /tmp/aws/install && \
     rm -rf /tmp/awscliv2.zip /tmp/aws
 
+<<<<<<< HEAD
 # --- HashiCorp repo: Terraform ---
 RUN dnf5 install -y 'dnf5-command(config-manager)' && \
     dnf5 config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo && \
@@ -96,6 +148,9 @@ RUN ARCH=$(uname -m) && \
     tar -xzf /tmp/crane.tar.gz -C /usr/local/bin crane && \
     rm -f /tmp/crane.tar.gz
 RUN dnf -y install openssh-clients && dnf clean all
+=======
+# --- Non-root user ---
+>>>>>>> rob/rev-dockerfile
 
 ARG APP_USER=rob
 ARG APP_UID=1000
@@ -103,6 +158,7 @@ RUN useradd -m -u ${APP_UID} -s /bin/zsh ${APP_USER} && \
     echo "${APP_USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${APP_USER} && \
     chmod 0440 /etc/sudoers.d/${APP_USER}
 
+<<<<<<< HEAD
 USER ${APP_USER}
 WORKDIR /home/${APP_USER}
 
@@ -110,6 +166,15 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 
 COPY --chown=${APP_USER}:${APP_USER} .bashrc /home/${APP_USER}/.bashrc
 COPY --chown=${APP_USER}:${APP_USER} .zshrc /home/${APP_USER}/.zshrc
+=======
+COPY --chown=${APP_USER}:${APP_USER} .bashrc /home/${APP_USER}/.bashrc
+
+WORKDIR /home/${APP_USER}
+USER ${APP_USER}
+
+# oh-my-zsh, unattended (generates a default ~/.zshrc)
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+>>>>>>> rob/rev-dockerfile
 
 ENV VIRTUAL_ENV=/home/${APP_USER}/.venv
 RUN python3 -m venv ${VIRTUAL_ENV}
